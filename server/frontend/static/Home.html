@@ -1,64 +1,130 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - Best Cars Dealerships</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="static/style.css">
   <link rel="stylesheet" href="static/bootstrap.min.css">
-<script>
+  <style>
+    body {
+      background-color: #121824 !important;
+      color: #e2e8f0;
+    }
+    .navbar {
+      background-color: #1c2434 !important;
+      border-bottom: 1px solid #2d3748;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .navbar .navbar-brand, .navbar h2 {
+      color: #00f0ff !important;
+    }
+    .navbar .nav-link {
+      color: #94a3b8 !important;
+    }
+    .navbar .nav-link.active {
+      color: #00f0ff !important;
+    }
+    .home-card {
+      background-color: #1c2434 !important;
+      border: 1px solid #2d3748;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .banner {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      border-top: 1px solid #2d3748;
+    }
+    .hero-img {
+      height: 400px;
+      object-fit: cover;
+      filter: brightness(0.85) contrast(1.05);
+    }
+    .btn-cyan {
+      background-color: #00f0ff !important;
+      color: #0f172a !important;
+      font-weight: 700;
+      transition: all 0.2s ease-in-out;
+    }
+    .btn-cyan:hover {
+      background-color: #00d8e6 !important;
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+    }
+  </style>
+  <script>
+    const logout = async (e) => {
+      // Include the code for logout here.
+    };
 
-const logout = async (e) => {
-//Include the code for logout here.
-};
+    let checkSession = () => {
+      let curr_user = sessionStorage.getItem("username");
+      let targetContainer = document.getElementById("loginlogout");
 
-let checkSession = ()=>{
-  let curr_user = sessionStorage.getItem("username");
-
-  if (curr_user && curr_user !== "") {
-    document.getElementById("loginlogout").innerHTML = 
-    '<span class="homepage_links">' + curr_user +'</span>' +
-    '<a class="homepage_links" onclick="logout()" href="/">Logout</a>'
-  } else {
-    document.getElementById("loginlogout").innerHTML = 
-    '<a class="homepage_links" href="/login">Login</a>'+
-    '<a class="homepage_links"  href="/register">Register</a>'
-  }
- }
-</script>
+      if (curr_user && curr_user !== "") {
+        targetContainer.innerHTML = `
+          <span class="text-white fw-bold me-3">${curr_user}</span>
+          <a class="btn btn-outline-light btn-sm rounded-pill px-3 fw-semibold" onclick="logout()" href="/">Logout</a>
+        `;
+      } else {
+        targetContainer.innerHTML = `
+          <a class="btn btn-outline-light btn-sm rounded-pill px-3 me-2 fw-semibold" href="/login">Login</a>
+          <a class="btn btn-light btn-sm rounded-pill px-3 fw-semibold" style="background-color: #e2e8f0;" href="/register">Register</a>
+        `;
+      }
+    }
+  </script>
 </head>
 <body onload="checkSession()">
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color:darkturquoise; height: 1in;">
-  <div class="container-fluid">
-    <h2 style="padding-right: 5%;">Dealerships</h2>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" style="font-size: larger;" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="font-size: larger;" href="/about">About Us</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" style="font-size: larger;" href="/contact">Contact Us</a>
-        </li>
-      </ul>
-      <span class="navbar-text">
-        <div class="loginlink" id="loginlogout">
-        </div>
-        </span>
+
+  <nav class="navbar navbar-expand-lg navbar-dark py-3">
+    <div class="container-fluid px-4">
+      <h2 class="mb-0 me-5 fw-bold">Dealerships</h2>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
+          <li class="nav-item">
+            <a class="nav-link active fs-5 fw-semibold" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fs-5" href="/about">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fs-5" href="/contact">Contact Us</a>
+          </li>
+        </ul>
+        
+        <div class="d-flex align-items-center" id="loginlogout">
+          </div>
+      </div>
     </div>
-  </div>
-</nav>
-<div style="display: flex;flex-direction: column;">
-<div class="card" style="width: 50%;margin-top: 50px;align-self: center;">
-  <img src="static/car_dealership.jpg" class="card-img-top" alt="...">
-  <div class="banner">
-    <h5>Welcome to our Dealerships!</h5>
-    <a href="/dealers" class="btn" style="background-color: aqua;margin:10px">View Dealerships</a>
-  </div>
-</div>
-</div>
+  </nav>
+
+  <main class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-7">
+        
+        <div class="card home-card">
+          <img src="static/car_dealership.jpg" class="card-img-top hero-img" alt="Best Cars Showroom Deck">
+          
+          <div class="banner">
+            <h1 class="h3 fw-bold text-white mb-3">Welcome to our Dealerships!</h1>
+            <p class="mb-4 small" style="color: #94a3b8;">Discover top-tier inventory across domestic and premium import markets.</p>
+            <a href="/dealers" class="btn btn-cyan shadow-sm px-4 py-2 rounded-pill">
+              View Dealerships
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
 </body>
 </html>
