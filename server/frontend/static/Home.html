@@ -58,28 +58,19 @@
   </style>
   <script>
     const logout = async (e) => {
-      // Build absolute logout API gateway endpoint URL string
+      if (e) e.preventDefault(); // Stop raw link traversal
+      
       let logout_url = window.location.origin + "/djangoapp/logout";
-
-      // Execute asynchronous GET request to the Django backend
       const res = await fetch(logout_url, {
         method: "GET",
       });
 
       const json = await res.json();
       if (json) {
-        // Capture historical username context before storage removal execution
         let username = sessionStorage.getItem('username');
-        
-        // Clear local client-side session cache records
         sessionStorage.removeItem('username');
-        
-        // Enforce redirection to root index origin path
+        alert("Logging out " + (username || "user") + "...");
         window.location.href = window.location.origin;
-        window.location.reload();
-        
-        // Notify user of completed state destruction execution
-        alert("Logging out " + username + "...");
       } else {
         alert("The user could not be logged out.");
       }
@@ -92,7 +83,7 @@
       if (curr_user && curr_user !== "") {
         targetContainer.innerHTML = `
           <span class="text-white fw-bold me-3">${curr_user}</span>
-          <a class="btn btn-outline-light btn-sm rounded-pill px-3 fw-semibold" onclick="logout()" href="/">Logout</a>
+          <a class="btn btn-outline-light btn-sm rounded-pill px-3 fw-semibold" onclick="logout(event)" href="#">Logout</a>
         `;
       } else {
         targetContainer.innerHTML = `

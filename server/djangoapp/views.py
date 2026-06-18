@@ -33,7 +33,7 @@ def login_user(request):
     if user is not None:
         # If user is valid, call login method to login current user
         login(request, user)
-        data = {"userName": username, "status": "Authenticated"}
+        data = {"userName": username, "status": "Authenticated", "firstName": user.first_name, "lastName": user.last_name}
     return JsonResponse(data)
 
 def logout_request(request):
@@ -51,9 +51,28 @@ def logout_request(request):
     return JsonResponse(data)
 
 # Create a `registration` view to handle sign up request
-# @csrf_exempt
-# def registration(request):
-# ...
+@csrf_exempt
+def registration(request):
+    data = json.loads(request.body)
+    username = data['userName']
+    password = data['password']
+    first_name = data['firstName']
+    last_name = data['lastName']
+    email = data['email']
+    
+    username_exists = False
+    try:
+        User.objects.get(username=username)
+        username_exists = True
+    except User.DoesNotExist:
+        logger.debug("%s is new user", username)
+        
+    if not username_exists:
+        user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, password=password, email=email)
+        login(request, user)
+        return JsonResponse({"userName": username, "status": "Authenticated", "firstName": first_name, "lastName": last_name})
+    else:
+        return JsonResponse({"userName": username, "error": "Already Registered"})
 
 # # Update the `get_dealerships` view to render the index page with
 # a list of dealerships

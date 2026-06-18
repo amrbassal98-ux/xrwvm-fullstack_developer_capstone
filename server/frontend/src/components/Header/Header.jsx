@@ -4,19 +4,18 @@ import "../assets/bootstrap.min.css";
 
 const Header = () => {
   const logout = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Halts immediate browser redirection to ensure API execution finishes
     let logout_url = window.location.origin + "/djangoapp/logout";
     const res = await fetch(logout_url, {
       method: "GET",
     });
-  
+
     const json = await res.json();
     if (json) {
       let username = sessionStorage.getItem('username');
       sessionStorage.removeItem('username');
-      window.location.href = window.location.origin;
-      window.location.reload();
-      alert("Logging out " + username + "...");
+      alert("Logging out " + (username || "user") + "...");
+      window.location.href = window.location.origin; 
     } else {
       alert("The user could not be logged out.");
     }
@@ -33,8 +32,8 @@ const Header = () => {
         </span>
         <a 
           className="nav_item" 
-          href="/djangoapp/logout" 
-          onClick={logout}
+          href="#" 
+          onClick={(e) => logout(e)}
           style={{
             color: '#00f0ff',
             textDecoration: 'none',
@@ -47,6 +46,43 @@ const Header = () => {
           }}
         >
           Logout
+        </a>
+      </div>
+    );
+  } else {
+    home_page_items = (
+      <div className="input_panel" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <a 
+          className="nav_item" 
+          href="/login"
+          style={{
+            color: '#e2e8f0',
+            textDecoration: 'none',
+            border: '1px solid #2d3748',
+            padding: '0.375rem 1rem',
+            borderRadius: '50px',
+            fontSize: '0.9rem',
+            fontWeight: '600',
+            transition: 'all 0.2s ease'
+          }}
+        >
+          Login
+        </a>
+        <a 
+          className="nav_item" 
+          href="/register"
+          style={{
+            color: '#0f172a',
+            backgroundColor: '#00f0ff',
+            textDecoration: 'none',
+            padding: '0.375rem 1rem',
+            borderRadius: '50px',
+            fontSize: '0.9rem',
+            fontWeight: '600',
+            transition: 'all 0.2s ease'
+          }}
+        >
+          Register
         </a>
       </div>
     );
@@ -79,7 +115,6 @@ const Header = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           
-          {/* Fixed collapsible container layout */}
           <div className="collapse navbar-collapse show" id="navbarText">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0" style={{ display: 'flex', flexDirection: 'row', gap: '1.5rem' }}>
               <li className="nav-item">
