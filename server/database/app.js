@@ -1,35 +1,42 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const fs = require('fs');
-const  cors = require('cors')
-const app = express()
+const cors = require('cors');
+const app = express();
 const port = 3030;
 
-app.use(cors())
+app.use(cors());
 app.use(require('body-parser').urlencoded({ extended: false }));
 
-const dataDir = process.env.DATA_DIR || __dirname;
-const reviews_data = JSON.parse(fs.readFileSync(`${dataDir}/data/reviews.json`, 'utf8'));
-const dealerships_data = JSON.parse(fs.readFileSync(`${dataDir}/data/dealerships.json`, 'utf8'));
+const MONGO_URI = process.env.MONGO_URI || (() => {
+  const host = process.env.MONGO_HOST || 'mongo_db';
+  const port = process.env.MONGO_PORT || '27017';
+  return `mongodb://${host}:${port}/`;
+})();
+const MONGO_DB_NAME = process.env.MONGO_DB_NAME || 'dealershipsDB';
 
-const mongoHost = process.env.MONGO_HOST || 'mongo_db';
-mongoose.connect(`mongodb://${mongoHost}:27017/`,{'dbName':'dealershipsDB'});
-
+mongoose.connect(MONGO_URI, { dbName: MONGO_DB_NAME });
 
 const Reviews = require('./review');
-
 const Dealerships = require('./dealership');
 
-try {
-  Reviews.deleteMany({}).then(()=>{
-    Reviews.insertMany(reviews_data['reviews']);
-  });
-  Dealerships.deleteMany({}).then(()=>{
-    Dealerships.insertMany(dealerships_data['dealerships']);
-  });
-  
-} catch (error) {
-  console.error('Error inserting documents:', error);
+if (process.env.SEED_DATABASE === 'true') {
+  const dataDir = process.env.DATA_DIR || __dirname;
+  const reviews_data = JSON.parse(fs.readFileSync(`${dataDir}/data/reviews.json`, 'utf8'));
+  const dealerships_data = JSON.parse(fs.readFileSync(`${dataDir}/data/dealerships.json`, 'utf8'));
+
+  (async () => {
+    try {
+      await Reviews.deleteMany({});
+      await Reviews.insertMany(reviews_data['reviews']);
+      await Dealerships.deleteMany({});
+      await Dealerships.insertMany(dealerships_data['dealerships']);
+      console.log('Database seeded successfully');
+    } catch (error) {
+      console.error('Database initialization failed:', error);
+    }
+  })();
 }
 
 
