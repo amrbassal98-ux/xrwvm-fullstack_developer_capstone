@@ -8,10 +8,12 @@ const port = 3030;
 app.use(cors())
 app.use(require('body-parser').urlencoded({ extended: false }));
 
-const reviews_data = JSON.parse(fs.readFileSync("reviews.json", 'utf8'));
-const dealerships_data = JSON.parse(fs.readFileSync("dealerships.json", 'utf8'));
+const dataDir = process.env.DATA_DIR || __dirname;
+const reviews_data = JSON.parse(fs.readFileSync(`${dataDir}/data/reviews.json`, 'utf8'));
+const dealerships_data = JSON.parse(fs.readFileSync(`${dataDir}/data/dealerships.json`, 'utf8'));
 
-mongoose.connect("mongodb://mongo_db:27017/",{'dbName':'dealershipsDB'});
+const mongoHost = process.env.MONGO_HOST || 'mongo_db';
+mongoose.connect(`mongodb://${mongoHost}:27017/`,{'dbName':'dealershipsDB'});
 
 
 const Reviews = require('./review');
@@ -77,7 +79,7 @@ app.get('/fetchDealers/:state', async (req, res) => {
 });
 
 // Express route to fetch dealer by a particular id
-app.get('/fetchDealers/:id', async (req, res) => {
+app.get('/fetchDealer/:id', async (req, res) => {
   try {
     const documents = await Dealerships.find({id: req.params.id});
     res.json(documents);
