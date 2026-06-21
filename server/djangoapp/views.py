@@ -11,7 +11,7 @@ from django.contrib.auth import login, authenticate, logout
 import logging
 import json
 from django.views.decorators.csrf import csrf_exempt
-from .populate import initiate
+from .populate import initiate, _seed_mongodb_reviews
 from .models import CarMake, CarModel
 from .restapis import get_request, analyze_review_sentiments, post_review
 
@@ -76,6 +76,7 @@ def registration(request):
 
 # Update the `get_cars` view to render the index
 def get_cars(request):
+    _seed_mongodb_reviews()
     count = CarMake.objects.filter().count()
     if(count == 0):
         initiate()
@@ -86,6 +87,7 @@ def get_cars(request):
     return JsonResponse({"CarModels":cars})
 
 def get_dealerships(request, state='ALL'):
+    _seed_mongodb_reviews()
     if state == 'ALL':
         endpoint = "/fetchDealers"
     else:

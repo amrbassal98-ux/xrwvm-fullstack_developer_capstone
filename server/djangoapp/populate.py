@@ -1,6 +1,34 @@
+import json
+import os
+import pymongo
 from .models import CarMake, CarModel
 
+
+MONGO_URI = os.getenv('MONGO_URI', 'mongodb://127.0.0.1:27017/')
+MONGO_DB_NAME = os.getenv('MONGO_DB_NAME', 'dealershipsDB')
+REVIEWS_JSON_PATH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    'database', 'data', 'reviews.json'
+)
+
+
+def _seed_mongodb_reviews():
+    client = pymongo.MongoClient(MONGO_URI)
+    db = client[MONGO_DB_NAME]
+    reviews_col = db['reviews']
+
+    with open(REVIEWS_JSON_PATH, 'r') as f:
+        reviews_data = json.load(f)
+
+    reviews_col.delete_many({})
+    reviews_col.insert_many(reviews_data['reviews'])
+    print(f"MongoDB seeded with {len(reviews_data['reviews'])} reviews")
+    client.close()
+
+
 def initiate():
+    _seed_mongodb_reviews()
+
     # 1. Clean out existing database state to prevent constraint violations
     CarModel.objects.all().delete()
     CarMake.objects.all().delete()
