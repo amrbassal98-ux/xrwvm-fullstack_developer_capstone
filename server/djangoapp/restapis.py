@@ -32,7 +32,7 @@ def analyze_review_sentiments(text):
     Consumes the sentiment analyzer microservice safely using query parameters.
     """
     # Standardize URL trailing slash
-    base_url = SENTIMENT_ANALYZER_URL.rstrip('/') + '/analyze'
+    base_url = sentiment_analyzer_url.rstrip('/') + '/analyze'
     payload = {'text': text}
     
     try:
