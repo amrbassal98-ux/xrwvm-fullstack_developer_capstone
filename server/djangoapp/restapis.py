@@ -31,19 +31,21 @@ def analyze_review_sentiments(text):
     """
     Consumes the sentiment analyzer microservice safely using query parameters.
     """
-    # Standardize URL trailing slash
     base_url = sentiment_analyzer_url.rstrip('/') + '/analyze'
     payload = {'text': text}
     
     try:
-        # Pass payload to params; requests handles encoding natively
-        response = requests.get(base_url, params=payload)
+        response = requests.get(base_url, params=payload, timeout=5)
         response.raise_for_status()
-        return response.json()
+        result = response.json()
+        return {
+            "sentiment": result.get('sentiment', 'neutral'),
+            "scores": result.get('scores', {})
+        }
         
     except requests.exceptions.RequestException as err:
-        print(f"Network exception occurred: {err}")
-        return {"sentiment": "neutral"}
+        print(f"Sentiment analysis failed: {err}")
+        return {"sentiment": "neutral", "scores": {}}
 
 def post_review(data_dict):
     request_url = f"{backend_url}/insert_review"
