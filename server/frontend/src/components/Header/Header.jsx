@@ -1,10 +1,8 @@
 import React from 'react';
-import "../assets/style.css";
-import "../assets/bootstrap.min.css";
 
 const Header = () => {
   const logout = async (e) => {
-    e.preventDefault(); // Halts immediate browser redirection to ensure API execution finishes
+    e.preventDefault();
     let logout_url = window.location.origin + "/djangoapp/logout";
     const res = await fetch(logout_url, {
       method: "GET",
@@ -15,123 +13,64 @@ const Header = () => {
       let username = sessionStorage.getItem('username');
       sessionStorage.removeItem('username');
       alert("Logging out " + (username || "user") + "...");
-      window.location.href = window.location.origin; 
+      window.location.href = window.location.origin;
     } else {
       alert("The user could not be logged out.");
     }
   };
-    
-  let home_page_items = <div></div>;
-  let curr_user = sessionStorage.getItem('username');
 
-  if (curr_user !== null && curr_user !== "") {
-    home_page_items = (
-      <div className="input_panel" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <span className='username' style={{ color: '#e2e8f0', fontWeight: '500' }}>
-          {sessionStorage.getItem("username")}
-        </span>
-        <a 
-          className="nav_item" 
-          href="#" 
-          onClick={(e) => logout(e)}
-          style={{
-            color: '#00f0ff',
-            textDecoration: 'none',
-            border: '1px solid #00f0ff',
-            padding: '0.375rem 1rem',
-            borderRadius: '50px',
-            fontSize: '0.9rem',
-            fontWeight: '600',
-            transition: 'all 0.2s ease'
-          }}
-        >
-          Logout
-        </a>
-      </div>
-    );
-  } else {
-    home_page_items = (
-      <div className="input_panel" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <a 
-          className="nav_item" 
-          href="/login"
-          style={{
-            color: '#e2e8f0',
-            textDecoration: 'none',
-            border: '1px solid #2d3748',
-            padding: '0.375rem 1rem',
-            borderRadius: '50px',
-            fontSize: '0.9rem',
-            fontWeight: '600',
-            transition: 'all 0.2s ease'
-          }}
-        >
-          Login
-        </a>
-        <a 
-          className="nav_item" 
-          href="/register"
-          style={{
-            color: '#0f172a',
-            backgroundColor: '#00f0ff',
-            textDecoration: 'none',
-            padding: '0.375rem 1rem',
-            borderRadius: '50px',
-            fontSize: '0.9rem',
-            fontWeight: '600',
-            transition: 'all 0.2s ease'
-          }}
-        >
-          Register
-        </a>
-      </div>
-    );
-  }
-    
+  let curr_user = sessionStorage.getItem('username');
+  let isLoggedIn = curr_user !== null && curr_user !== "";
+
   return (
     <div>
-      <nav 
-        className="navbar navbar-expand-lg navbar-dark" 
-        style={{ 
-          backgroundColor: "#1c2434", 
-          minHeight: "75px",
-          borderBottom: "1px solid #2d3748",
-          padding: "0.5rem 2rem"
-        }}
+      <nav
+        className="navbar navbar-expand-lg navbar-dark py-3"
+        style={{ backgroundColor: '#1c2434', borderBottom: '1px solid #2d3748', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}
       >
-        <div className="container-fluid">
-          <h2 style={{ paddingRight: "5%", color: "#00f0ff", fontWeight: "700", margin: 0 }}>
-            Dealerships
-          </h2>
-          <button 
-            className="navbar-toggler" 
-            type="button" 
-            data-bs-toggle="collapse" 
-            data-bs-target="#navbarText" 
-            aria-controls="navbarText" 
-            aria-expanded="false" 
+        <div className="container-fluid px-4">
+          <h2 className="mb-0 me-5 fw-bold" style={{ color: '#00f0ff' }}>Dealerships</h2>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarText"
+            aria-controls="navbarText"
+            aria-expanded="false"
             aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          
-          <div className="collapse navbar-collapse show" id="navbarText">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0" style={{ display: 'flex', flexDirection: 'row', gap: '1.5rem' }}>
+          <div className="collapse navbar-collapse" id="navbarText">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
               <li className="nav-item">
-                <a className="nav-link active" style={{ fontSize: "larger", color: "#ffffff", padding: "0.5rem" }} aria-current="page" href="/">Home</a>
+                <a className="nav-link active fs-5 fw-semibold" style={{ color: '#00f0ff' }} aria-current="page" href="/">Home</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" style={{ fontSize: "larger", color: "#94a3b8", padding: "0.5rem" }} href="/about">About Us</a>
+                <a className="nav-link fs-5" style={{ color: '#94a3b8' }} href="/about">About Us</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" style={{ fontSize: "larger", color: "#94a3b8", padding: "0.5rem" }} href="/contact">Contact Us</a>
+                <a className="nav-link fs-5" style={{ color: '#94a3b8' }} href="/contact">Contact Us</a>
               </li>
             </ul>
-            <span className="navbar-text">
-              <div className="loginlink" id="loginlogout">
-                {home_page_items}
-              </div>
-            </span>
+            <div className="d-flex align-items-center" id="loginlogout">
+              {isLoggedIn ? (
+                <>
+                  <span className="text-white fw-bold me-3">{curr_user}</span>
+                  <button
+                    className="btn btn-outline-light btn-sm rounded-pill px-3 fw-semibold"
+                    onClick={(e) => logout(e)}
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <a className="btn btn-outline-light btn-sm rounded-pill px-3 me-2 fw-semibold" href="/login">Login</a>
+                  <a className="btn btn-light btn-sm rounded-pill px-3 fw-semibold" style={{ backgroundColor: '#e2e8f0' }} href="/register">Register</a>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </nav>

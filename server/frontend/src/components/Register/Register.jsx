@@ -1,17 +1,13 @@
 import React, { useState } from "react";
 import "./Register.css";
 import Header from "../Header/Header";
-import user_icon from "../assets/person.png";
-import email_icon from "../assets/email.png";
-import password_icon from "../assets/password.png";
-import close_icon from "../assets/close.png";
 
 const Register = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
-  const [lastName, setlastName] = useState("");
+  const [lastName, setLastName] = useState("");
 
   const gohome = () => {
     window.location.href = window.location.origin;
@@ -49,106 +45,100 @@ const Register = () => {
   };
 
   return (
-    <div className="login-page-wrapper">
+    <div className="register-page-wrapper">
       <Header />
-      <div className="login-container">
-        <div className="register_container">
-          <div className="register_header">
-            <span className="text">SignUp</span>
-            <a href="/" onClick={(e) => { e.preventDefault(); gohome(); }}>
-              <img className="close_icon_img" src={close_icon} alt="Close" />
-            </a>
+      
+      <main className="container my-5">
+        <div className="row justify-content-center">
+          <div className="col-12 col-md-8 col-lg-6">
+            
+            <div className="card register-card">
+              <div className="banner" style={{ padding: '2.5rem 2rem', textAlign: 'center', borderBottom: '1px solid #2d3748' }}>
+                <div className="d-flex justify-content-between align-items-center mb-2">
+                  <h1 className="h3 fw-bold text-white mb-0">SignUp</h1>
+                  <a href="/" onClick={(e) => { e.preventDefault(); gohome(); }} className="text-white text-decoration-none">
+                    <span className="fs-4">&times;</span>
+                  </a>
+                </div>
+                <p className="mb-0 small" style={{ color: '#94a3b8' }}>Create a new dealership account</p>
+              </div>
+              
+              <div className="card-body p-4 p-md-5">
+                <form onSubmit={register}>
+                  <div className="row g-3">
+                    <div className="col-12">
+                      <label className="form-label small text-secondary fw-semibold" style={{ color: '#94a3b8 !important' }}>Username</label>
+                      <input 
+                        type="text" 
+                        className="form-control" 
+                        placeholder="Username" 
+                        onChange={(e) => setUserName(e.target.value)} 
+                        required 
+                      />
+                    </div>
+                    
+                    <div className="col-12 col-sm-6">
+                      <label className="form-label small text-secondary fw-semibold" style={{ color: '#94a3b8 !important' }}>First Name</label>
+                      <input 
+                        type="text" 
+                        className="form-control" 
+                        placeholder="First Name" 
+                        onChange={(e) => setFirstName(e.target.value)} 
+                        required 
+                      />
+                    </div>
+                    
+                    <div className="col-12 col-sm-6">
+                      <label className="form-label small text-secondary fw-semibold" style={{ color: '#94a3b8 !important' }}>Last Name</label>
+                      <input 
+                        type="text" 
+                        className="form-control" 
+                        placeholder="Last Name" 
+                        onChange={(e) => setLastName(e.target.value)} 
+                        required 
+                      />
+                    </div>
+                    
+                    <div className="col-12">
+                      <label className="form-label small text-secondary fw-semibold" style={{ color: '#94a3b8 !important' }}>Email</label>
+                      <input 
+                        type="email" 
+                        className="form-control" 
+                        placeholder="Email" 
+                        onChange={(e) => setEmail(e.target.value)} 
+                        required 
+                      />
+                    </div>
+                    
+                    <div className="col-12">
+                      <label className="form-label small text-secondary fw-semibold" style={{ color: '#94a3b8 !important' }}>Password</label>
+                      <input 
+                        type="password" 
+                        className="form-control" 
+                        placeholder="Password" 
+                        onChange={(e) => setPassword(e.target.value)} 
+                        required 
+                      />
+                    </div>
+                    
+                    <div className="col-12 pt-2">
+                      <button type="submit" className="btn btn-cyan px-4 py-2 rounded-pill w-100 fw-bold">
+                        Register
+                      </button>
+                    </div>
+                  </div>
+                </form>
+
+                <div className="text-center mt-4">
+                  <span className="small" style={{ color: '#94a3b8' }}>Already have an account? </span>
+                  <a href="/login" className="text-cyan text-decoration-none small fw-semibold">Login Here</a>
+                </div>
+              </div>
+            </div>
+
           </div>
-          <div className="register_subtitle">Create a new dealership account</div>
-          <div className="divider"></div>
-
-          <form onSubmit={register}>
-            <div className="input_row">
-              <label className="input_label">Username</label>
-              <div className="input_wrapper">
-                <img src={user_icon} className="img_icon" alt='Username' />
-                <input 
-                  type="text" 
-                  name="username" 
-                  placeholder="Username" 
-                  className="input_field" 
-                  onChange={(e) => setUserName(e.target.value)} 
-                  required 
-                />
-              </div>
-            </div>
-
-            <div className="input_row">
-              <label className="input_label">First Name</label>
-              <div className="input_wrapper">
-                <img src={user_icon} className="img_icon" alt='First Name' />
-                <input 
-                  type="text" 
-                  name="first_name" 
-                  placeholder="First Name" 
-                  className="input_field" 
-                  onChange={(e) => setFirstName(e.target.value)} 
-                  required 
-                />
-              </div>
-            </div>
-
-            <div className="input_row">
-              <label className="input_label">Last Name</label>
-              <div className="input_wrapper">
-                <img src={user_icon} className="img_icon" alt='Last Name' />
-                <input 
-                  type="text" 
-                  name="last_name" 
-                  placeholder="Last Name" 
-                  className="input_field" 
-                  onChange={(e) => setlastName(e.target.value)} 
-                  required 
-                />
-              </div>
-            </div>
-
-            <div className="input_row">
-              <label className="input_label">Email</label>
-              <div className="input_wrapper">
-                <img src={email_icon} className="img_icon" alt='Email' />
-                <input 
-                  type="email" 
-                  name="email" 
-                  placeholder="Email" 
-                  className="input_field" 
-                  onChange={(e) => setEmail(e.target.value)} 
-                  required 
-                />
-              </div>
-            </div>
-
-            <div className="input_row">
-              <label className="input_label">Password</label>
-              <div className="input_wrapper">
-                <img src={password_icon} className="img_icon" alt='Password' />
-                <input 
-                  name="psw" 
-                  type="password" 
-                  placeholder="Password" 
-                  className="input_field" 
-                  onChange={(e) => setPassword(e.target.value)} 
-                  required 
-                />
-              </div>
-            </div>
-
-            <div className="submit_panel">
-              <input className="submit" type="submit" value="Register" />
-            </div>
-
-            <div className="login_redirect">
-              <span>Already have an account? </span>
-              <a href="/login" className="login_link_accent">Login Here</a>
-            </div>
-          </form>
         </div>
-      </div>
+      </main>
     </div>
   );
 };
