@@ -18,19 +18,16 @@ def analyze_sentiment():
         return jsonify({"sentiment": "neutral"}), 400
         
     scores = sia.polarity_scores(input_txt)
-    
-    # Extract compound metric or evaluate high-scores safely
-    # Flask native jsonify handles headers and JSON formatting cleaner than json.dumps
-    neg = scores.get('neg', 0.0)
     pos = scores.get('pos', 0.0)
-    neu = scores.get('neu', 0.0)
-    
-    if neg > pos and neg > neu:
-        res = "negative"
-    elif neu > neg and neu > pos:
-        res = "neutral"
-    else:
+    neg = scores.get('neg', 0.0)
+    net = pos - neg
+
+    if net >= 0.3:
         res = "positive"
+    elif net <= -0.3:
+        res = "negative"
+    else:
+        res = "neutral"
         
     return jsonify({"sentiment": res})
 
