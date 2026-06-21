@@ -19,5 +19,13 @@ services:
     depends_on: 
       - mongo_db
 
+  # Sentiment analyzer microservice
+  sentiment:
+    build:
+      context: ../djangoapp/microservices
+      dockerfile: Dockerfile
+    ports:
+      - 5050:5000
+
 volumes:
   mongo_data: {}
