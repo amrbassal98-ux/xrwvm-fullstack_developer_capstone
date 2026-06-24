@@ -16,26 +16,147 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CarMake',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, unique=True)),
-                ('description', models.TextField(blank=True, null=True)),
-                ('country_of_origin', models.CharField(blank=True, max_length=100, null=True)),
-                ('established_year', models.IntegerField(blank=True, null=True)),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'name',
+                    models.CharField(max_length=100, unique=True),
+                ),
+                (
+                    'description',
+                    models.TextField(blank=True, null=True),
+                ),
+                (
+                    'country_of_origin',
+                    models.CharField(
+                        blank=True,
+                        max_length=100,
+                        null=True,
+                    ),
+                ),
+                (
+                    'established_year',
+                    models.IntegerField(blank=True, null=True),
+                ),
             ],
         ),
         migrations.CreateModel(
             name='CarModel',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('type', models.CharField(choices=[('SEDAN', 'Sedan'), ('SUV', 'SUV'), ('WAGON', 'Wagon'), ('COUPE', 'Coupe'), ('HATCHBACK', 'Hatchback'), ('CONVERTIBLE', 'Convertible'), ('TRUCK', 'Truck'), ('VAN', 'Van')], max_length=20)),
-                ('year', models.IntegerField(validators=[django.core.validators.MinValueValidator(2015), django.core.validators.MaxValueValidator(2023)])),
-                ('trim_level', models.CharField(blank=True, max_length=50, null=True)),
-                ('engine_type', models.CharField(choices=[('ICE', 'Internal Combustion Engine'), ('EV', 'Electric Vehicle'), ('HEV', 'Hybrid Electric Vehicle'), ('PHEV', 'Plug-in Hybrid')], default='ICE', max_length=10)),
-                ('transmission', models.CharField(choices=[('AUTOMATIC', 'Automatic'), ('MANUAL', 'Manual'), ('CVT', 'Continuously Variable')], default='AUTOMATIC', max_length=15)),
-                ('base_price', models.DecimalField(decimal_places=2, default=0.0, max_digits=10)),
-                ('image_url', models.URLField(blank=True, max_length=500, null=True)),
-                ('car_make', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='models', to='djangoapp.carmake')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'name',
+                    models.CharField(max_length=100),
+                ),
+                (
+                    'type',
+                    models.CharField(
+                        choices=[
+                            ('SEDAN', 'Sedan'),
+                            ('SUV', 'SUV'),
+                            ('WAGON', 'Wagon'),
+                            ('COUPE', 'Coupe'),
+                            ('HATCHBACK', 'Hatchback'),
+                            ('CONVERTIBLE', 'Convertible'),
+                            ('TRUCK', 'Truck'),
+                            ('VAN', 'Van'),
+                        ],
+                        max_length=20,
+                    ),
+                ),
+                (
+                    'year',
+                    models.IntegerField(
+                        validators=[
+                            django.core.validators.MinValueValidator(
+                                2015
+                            ),
+                            django.core.validators.MaxValueValidator(
+                                2023
+                            ),
+                        ]
+                    ),
+                ),
+                (
+                    'trim_level',
+                    models.CharField(
+                        blank=True,
+                        max_length=50,
+                        null=True,
+                    ),
+                ),
+                (
+                    'engine_type',
+                    models.CharField(
+                        choices=[
+                            ('ICE', 'Internal Combustion Engine'),
+                            ('EV', 'Electric Vehicle'),
+                            (
+                                'HEV',
+                                'Hybrid Electric Vehicle',
+                            ),
+                            ('PHEV', 'Plug-in Hybrid'),
+                        ],
+                        default='ICE',
+                        max_length=10,
+                    ),
+                ),
+                (
+                    'transmission',
+                    models.CharField(
+                        choices=[
+                            ('AUTOMATIC', 'Automatic'),
+                            ('MANUAL', 'Manual'),
+                            (
+                                'CVT',
+                                'Continuously Variable',
+                            ),
+                        ],
+                        default='AUTOMATIC',
+                        max_length=15,
+                    ),
+                ),
+                (
+                    'base_price',
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=0.0,
+                        max_digits=10,
+                    ),
+                ),
+                (
+                    'image_url',
+                    models.URLField(
+                        blank=True,
+                        max_length=500,
+                        null=True,
+                    ),
+                ),
+                (
+                    'car_make',
+                    models.ForeignKey(
+                        on_delete=(
+                            django.db.models.deletion.CASCADE
+                        ),
+                        related_name='models',
+                        to='djangoapp.carmake',
+                    ),
+                ),
             ],
         ),
     ]
