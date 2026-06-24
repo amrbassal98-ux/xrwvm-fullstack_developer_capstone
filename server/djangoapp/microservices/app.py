@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 from nltk.sentiment import SentimentIntensityAnalyzer
 
@@ -42,4 +43,7 @@ def analyze_sentiment():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    flask_host = os.environ.get('FLASK_HOST', '0.0.0.0')
+    flask_port = int(os.environ.get('FLASK_PORT', '5000'))
+    flask_debug = os.environ.get('FLASK_DEBUG', 'False').lower() in ('true', '1', 'yes')
+    app.run(host=flask_host, port=flask_port, debug=flask_debug)

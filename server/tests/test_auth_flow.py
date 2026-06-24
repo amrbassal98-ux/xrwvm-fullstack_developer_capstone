@@ -18,11 +18,12 @@ is in a clean state or that the chosen username does not
 already exist.
 """
 
+import os
 import requests
 from urllib.parse import urljoin
 
 # Configuration
-BASE_URL = "http://localhost:8000/"
+BASE_URL = os.environ.get('DJANGO_TEST_URL', 'http://localhost:8000/')
 REGISTER_ENDPOINT = urljoin(BASE_URL, "djangoapp/register")
 LOGIN_ENDPOINT = urljoin(BASE_URL, "djangoapp/login")
 LOGOUT_ENDPOINT = urljoin(BASE_URL, "djangoapp/logout")

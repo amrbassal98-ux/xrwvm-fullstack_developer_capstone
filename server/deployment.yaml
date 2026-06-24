@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dealership
+  labels:
+    run: dealership
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: dealership
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        run: dealership
+    spec:
+      containers:
+      - name: dealership
+        image: local/dealership:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8000
+          protocol: TCP
+        env:
+        - name: DJANGO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: dealership-secrets
+              key: django-secret-key
+        - name: DJANGO_DEBUG
+          value: "False"
+        - name: NODE_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: dealership-config
+              key: node-api-url
+        - name: SENTIMENT_ANALYZER_URL
+          valueFrom:
+            configMapKeyRef:
+              name: dealership-config
+              key: sentiment-analyzer-url
+        - name: MONGO_URI
+          valueFrom:
+            configMapKeyRef:
+              name: dealership-config
+              key: mongo-uri
+        - name: MONGO_DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: dealership-config
+              key: mongo-db-name
+      restartPolicy: Always

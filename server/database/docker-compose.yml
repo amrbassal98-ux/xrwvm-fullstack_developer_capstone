@@ -25,6 +25,7 @@ services:
     build:
       context: ../djangoapp/microservices
       dockerfile: Dockerfile
+    env_file: ../djangoapp/microservices/.env
     ports:
       - 5050:5000
 

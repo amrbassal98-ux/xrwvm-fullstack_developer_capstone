@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dealership-config
+  labels:
+    app: dealership
+data:
+  node-api-url: "http://host.minikube.internal:3030"
+  sentiment-analyzer-url: "http://host.minikube.internal:5050"
+  mongo-uri: "mongodb://host.minikube.internal:27017/"
+  mongo-db-name: "dealershipsDB"

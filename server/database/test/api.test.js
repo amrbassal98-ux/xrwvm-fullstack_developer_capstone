@@ -1,7 +1,7 @@
 const request = require('supertest');
 const { expect } = require('chai');
 
-const BASE_URL = 'http://localhost:3030';
+const BASE_URL = process.env.NODE_API_URL || 'http://localhost:3030';
 
 // Known seed data values from data/dealerships.json and data/reviews.json
 const TOTAL_DEALERSHIPS = 50;

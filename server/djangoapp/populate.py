@@ -4,8 +4,8 @@ import pymongo
 from .models import CarMake, CarModel
 
 
-MONGO_URI = os.getenv('MONGO_URI', 'mongodb://127.0.0.1:27017/')
-MONGO_DB_NAME = os.getenv('MONGO_DB_NAME', 'dealershipsDB')
+MONGO_URI = os.environ.get('MONGO_URI', 'mongodb://127.0.0.1:27017/')
+MONGO_DB_NAME = os.environ.get('MONGO_DB_NAME', 'dealershipsDB')
 REVIEWS_JSON_PATH = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
     'database', 'data', 'reviews.json'

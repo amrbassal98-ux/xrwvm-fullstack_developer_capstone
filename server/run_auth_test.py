@@ -11,13 +11,16 @@ The script performs:
 Run it with:
     python run_auth_test.py
 """
+import os
 import random
 import string
 import sys
 import time
 import requests
 
-BASE = "http://127.0.0.1:8000/djangoapp"
+BASE = os.environ.get(
+    'DJANGO_TEST_URL', 'http://127.0.0.1:8000/djangoapp'
+)
 
 
 def rand_str(n=8):
