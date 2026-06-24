@@ -5,7 +5,7 @@ const BASE_URL = 'http://localhost:3030';
 
 // Known seed data values from data/dealerships.json and data/reviews.json
 const TOTAL_DEALERSHIPS = 50;
-const TOTAL_REVIEWS = 50;
+const TOTAL_REVIEWS = 100;
 const FIRST_DEALER_ID = 1;
 const KNOWN_STATE = 'Texas';
 const KNOWN_DEALER_ID_WITH_REVIEWS = 15;
