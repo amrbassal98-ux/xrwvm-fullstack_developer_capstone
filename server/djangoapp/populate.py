@@ -17,12 +17,13 @@ def _seed_mongodb_reviews():
     db = client[MONGO_DB_NAME]
     reviews_col = db['reviews']
 
-    with open(REVIEWS_JSON_PATH, 'r') as f:
-        reviews_data = json.load(f)
-
-    reviews_col.delete_many({})
-    reviews_col.insert_many(reviews_data['reviews'])
-    print(f"MongoDB seeded with {len(reviews_data['reviews'])} reviews")
+    if reviews_col.count_documents({}) == 0:
+        with open(REVIEWS_JSON_PATH, 'r') as f:
+            reviews_data = json.load(f)
+        reviews_col.insert_many(reviews_data['reviews'])
+        print(f"MongoDB seeded with {len(reviews_data['reviews'])} reviews")
+    else:
+        print("MongoDB reviews already seeded, skipping")
     client.close()
 
 
